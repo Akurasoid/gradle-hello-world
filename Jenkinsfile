@@ -1,10 +1,19 @@
-node (‘slave1’) {
-  stage ('Checkout'){
-      checkout scm
-   }
-  stage ('Build'){
-    def gradleHome = tool 'gradle4'
-    sh "${gradleHome}/bin/gradle clean install"
-  }
-  
+pipeline {
+    agent any
+    tools { 
+        gradle 'gradle4'
+    }
+    stages {
+      stage('checkout') {
+        steps {
+          checkout scm
+        }
+      }
+      stage('build') {
+        steps {
+          echo "Path is" + env.PATH
+          sh "gradle build"
+        }
+      }
+    }
 }
