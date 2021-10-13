@@ -3,7 +3,8 @@ node (‘slave1’) {
       checkout scm
    }
   stage ('Build'){
-  def gradleHome = tool 'gradle4'
+    def gradleHome = tool 'gradle4'
     sh "${gradleHome}/bin/gradle clean install"
   }
+  
 }
