@@ -1,19 +1,28 @@
-pipeline {
-    agent any
-    tools { 
+pipeline{
+    agent {
+        label 'slave1'
+    }
+    tools {
         gradle 'gradle4'
     }
-    stages {
-      stage('checkout') {
-        steps {
-          checkout scm
+    stages{
+		stage ('Checkout'){
+            steps{
+      			checkout scm  
+            } 
+   		}
+   		stage ('build'){
+            steps{
+      	        sh "gradle build"
+            }
+   		}
+    }
+    post{
+        success {
+            addBadge(icon: 'completed.gif', text: 'OK')
         }
-      }
-      stage('build') {
-        steps {
-          echo "Path is" + env.PATH
-          sh "gradle build"
+        failure {
+            addBadge(icon: 'error.gif', text: 'Error')
         }
-      }
     }
 }
