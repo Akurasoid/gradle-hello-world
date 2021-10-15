@@ -21,5 +21,13 @@ node('slave1') {
   if (currentBuild.result == 'FAILURE') {
    addBadge(icon: 'red.gif', text: 'Build Failed')
   } 
+  stage('unit-test') {
+     sh "gradle clean test"
+     junit 'build/test-results/junit-platform/*.xml'
+     archiveArtifacts artifacts: 'build/libs/**/*.jar'
+  }
+  stage('func-test') {
+     
+ }
  }
 }
